@@ -1,0 +1,29 @@
+services:
+  mongo:
+    image: mongo
+    volumes:
+      - mi-volumen:/data/db
+    networks:
+      - mi-red
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongoadmin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongo
+    ports:
+      - "8082:8082"
+    networks:
+      - mi-red
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+      ME_CONFIG_MONGODB_SERVER: mongo
+
+volumes:
+  mi-volumen:
+
+networks:
+  mi-red:
